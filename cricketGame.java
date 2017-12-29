@@ -3,7 +3,7 @@ class cricket{
      public HashMap<Integer,String> countries=new HashMap<Integer,String>();
     
     private int overs,nation1,nation2;
-    cricket(){                                //Default Constructor
+    cricket(){
       
           countries.put(1,"India");
           countries.put(2,"Australia");
@@ -12,12 +12,40 @@ class cricket{
           countries.put(5,"West Indies");
           
       }
-    cricket(int overs,int nation1,int nation2){//constructor Overloading
+    cricket(int overs,int nation1,int nation2){
         this.overs=overs;
         this.nation1=nation1;
         this.nation2=nation2;
     }
-
+    public int[] startInings(int k,int flag){
+         int a[]=new int[2];
+         int run=0,wicket=0;
+         int target=k;
+     //   System.out.println(overs);
+        for(int i=0;i<overs;i++){
+            int status[]=startOver(i,wicket);
+            System.out.println(" runs this over : "+status[0]);
+            run=run+status[0];
+            wicket=wicket+status[1];
+            System.out.println(" Over : "+i+"||"+" Run/Wicket : "+run+"/"+wicket);
+            
+            if(flag==1&&k-run>0){
+                target=k-run;
+                System.out.println("Need "+target+" in "+ (6*(overs-i+1)));
+            }else if(flag==1&&k-run<0){
+                a[0]=0;
+                a[1]=wicket;
+                return a;
+            }
+            if(wicket>9){
+              break;  
+            }
+        }
+        a[0]=run;
+        a[1]=wicket;
+        return a;
+       
+    }
     
                 
                 
@@ -33,7 +61,15 @@ class cricket{
         }
         
     }
-    
+    public void showResult(int country1,int country2,int wicket){
+        if(country1>country2){
+            System.out.println(countries.get(nation1)+" won By "+(country1-country2)+" runs");
+        }else if(country1<country2){
+            System.out.println(countries.get(nation2)+" won with "+(10-wicket));
+        }else{
+            System.out.println("Draw");
+        }
+    }
        
 }
 class Match{
@@ -60,7 +96,11 @@ class Match{
         System.out.print(" : "+numOfOvers);
         System.out.println();
         cricket battle=new cricket(numOfOvers,choosenCountry1,choosenCountry2);
+        int[] runOfCountry1=battle.startInings(0,0);
+        System.out.println("END OF FIRST INNINGS");
+        System.out.println("TARGET : "+(runOfCountry1[0]+1)+" FOR "+battle.countries.get(choosenCountry2));
         
+            
         }
 }
         
