@@ -149,7 +149,24 @@ class cricket{
         return a;
          
     }
-    
+    public static int runForABall(Random r1){
+        int r=r1.nextInt();
+        r=Math.abs(r);
+        r=r%20;
+        if(r%2==0&&r>15){
+            return 1;
+        }else if(r%3==0&&r>15){
+            return 2;
+        }else if(r==7){
+            return 3;
+        }else if(r==11||r==5){
+            return 6;
+        }else if(r==13||r==17){
+            return 4;
+        }
+        return 0;
+        
+    }
     
                 
                 
