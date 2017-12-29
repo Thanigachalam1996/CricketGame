@@ -120,8 +120,35 @@ class cricket{
         }
         return false;
     }
-   
-    
+    public static int[] isThatOut(Random r1,boolean noBall,boolean freeHit){
+        int r=r1.nextInt();
+        r=Math.abs(r)%20;
+        int runs=0,wicket=0;
+        switch(r){
+            case 1: System.out.println("Caught");
+                    if(!noBall||!freeHit){
+                        ///System.out.print(noBall);
+                        wicket++;
+                    }else{
+                        runs=r%4;
+                    }
+                    break;
+            case 2: System.out.println("Bowled");
+                    if(!noBall){
+                        wicket++;
+                    }
+                    
+                    break;
+            case 3: System.out.println("Run Out + runned :"+r%4);
+                    runs=r%4;
+                    break;
+            default:runs=-1;
+                    break;
+        }
+        int a[]={runs,wicket};
+        return a;
+         
+    }
     
     
                 
