@@ -112,7 +112,14 @@ class cricket{
                 int a[]={runThisOver,wicket};
                 return a;
     }
-    
+    public static boolean isThisNoBall(Random r1){
+        int r=r1.nextInt();
+        if(r%20==0){
+            System.out.print("NO  BALL :");
+            return true;
+        }
+        return false;
+    }
    
     
     
