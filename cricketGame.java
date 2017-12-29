@@ -1,7 +1,7 @@
 import java.util.*;
 class cricket{
-    public HashMap<Integer,String> countries=new HashMap<Integer,String>();
-    static String numAsString[]={"<--FOUR-->","<--SIX-->"};
+     public HashMap<Integer,String> countries=new HashMap<Integer,String>();
+    
     private int overs,nation1,nation2;
     cricket(){
       
@@ -14,15 +14,14 @@ class cricket{
           
       }
     cricket(int overs,int nation1,int nation2){
-          
           countries.put(1,"India");
           countries.put(2,"Australia");
           countries.put(3,"South Africa");
           countries.put(4,"New Zealand");
           countries.put(5,"West Indies");
-          this.overs=overs;
-          this.nation1=nation1;
-          this.nation2=nation2;
+        this.overs=overs;
+        this.nation1=nation1;
+        this.nation2=nation2;
     }
     public int[] startInings(int k,int flag){
          int a[]=new int[2];
@@ -30,7 +29,7 @@ class cricket{
          int target=k;
      //   System.out.println(overs);
         for(int i=1;i<overs+1;i++){
-            int status[]=startOver(i,wicket,target,flag);
+            int status[]=startOver(i,wicket);
             System.out.println("_________________________________________________________________");
             System.out.println(" runs this over : "+status[0]);
             run=run+status[0];
@@ -45,7 +44,7 @@ class cricket{
                 target=k-run;
                 System.out.println("Need "+target+" in "+ (6*(overs-i))+" Balls ");
             }else if(flag==1&&k-run<0){
-                a[0]=run;
+                a[0]=0;
                 a[1]=wicket;
                 return a;
             }
@@ -56,37 +55,22 @@ class cricket{
         return a;
        
     }
-    public static int[] startOver(int i,int wicket,int target,int flag){
+    public static int[] startOver(int i,int wicket){
             int runThisOver=0;
             Random r1=new Random();
             int notConsidered=0;
             int status=0;
-            int cons=0;
-            Boolean freeHit=false;
             for(int j=1;j<7;j++){
-                if(flag==1&&target-runThisOver<=0){
-                    int a[]={runThisOver,wicket};
-                    return a;
-                }
                 System.out.print(i+"."+j+" : ");
                 boolean checkForNoBall=isThisNoBall(r1);
-                if(freeHit){
-                    System.out.print("<FREE HIT>:");
-                }
+                
                 if(checkForNoBall){
                     j--;
-                    
                 }
-                int[] isItOut=isThatOut(r1,checkForNoBall,freeHit);
+                int[] isItOut=isThatOut(r1,checkForNoBall);
                 if(isItOut[0]==-1) { 
                      status=runForABall(r1);
-                     System.out.print(status);
-                     if(status%6==0&&status!=0){
-                         System.out.print(numAsString[1]);
-                     }else if(status%4==0&&status!=0){
-                         System.out.print(numAsString[0]);
-                     }
-                    System.out.println();
+                     System.out.println(status);
                 }else{
                   //  runThisOver=runThisOver+isItOut[0];
                     //wicket=wicket++;
@@ -99,12 +83,7 @@ class cricket{
                 }
                     //continue;
                 
-                if(checkForNoBall){
-                    freeHit=true;
-                    
-                }else{
-                    freeHit=false;
-                }
+                
                 runThisOver=runThisOver+status;
                }
                
@@ -120,24 +99,20 @@ class cricket{
         }
         return false;
     }
-    public static int[] isThatOut(Random r1,boolean noBall,boolean freeHit){
+    public static int[] isThatOut(Random r1,boolean noBall){
         int r=r1.nextInt();
         r=Math.abs(r)%20;
         int runs=0,wicket=0;
         switch(r){
             case 1: System.out.println("Caught");
-                    if(!noBall||!freeHit){
-                        ///System.out.print(noBall);
+                    if(!noBall){
                         wicket++;
                     }else{
                         runs=r%4;
                     }
                     break;
             case 2: System.out.println("Bowled");
-                    if(!noBall){
-                        wicket++;
-                    }
-                    
+                    wicket++;
                     break;
             case 3: System.out.println("Run Out + runned :"+r%4);
                     runs=r%4;
@@ -183,9 +158,9 @@ class cricket{
         
     }
     public void showResult(int country1,int country2,int wicket){
-        if(country1>country2){
+        if(country1<country2){
             System.out.println(countries.get(nation1)+" won By "+(country1-country2)+" runs");
-        }else if(country1<country2){
+        }else if(country1>country2){
             System.out.println(countries.get(nation2)+" won by "+(10-wicket)+" wickets");
         }else{
             System.out.println("Draw");
@@ -223,7 +198,7 @@ class Match{
         int[] runOfCountry1=battle.startInings(0,0);
         System.out.println("END OF FIRST INNINGS");
         System.out.println(battle.countries.get(choosenCountry1)+" : "+runOfCountry1[0]+"/"+runOfCountry1[1]);
-        System.out.println("TARGET : "+(runOfCountry1[0]+1)+" FOR "+(battle.countries.get(choosenCountry2)).toUpperCase());
+        System.out.println("TARGET : "+(runOfCountry1[0]+1)+" FOR "+battle.countries.get(choosenCountry2));
         
         int[] runOfCountry2=battle.startInings(runOfCountry1[0],1);
         battle.showResult(runOfCountry1[0],runOfCountry2[0],runOfCountry2[1]);
